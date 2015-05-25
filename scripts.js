@@ -3,12 +3,28 @@ function newLine()
 	document.write("<br/>");
 }
 
+
 function writeLine(text)
 {
 	document.write(text);
-	document.write("<br/>");
+	newLine();
 }
 
+function writeImg(url)
+{
+	document.write("<img src=\"");
+	document.write(url);
+	document.write("\"/>");
+}
+
+
+function writeImgLine(url)
+{
+	writeImg(url);
+	newLine();
+}
+
+
 writeLine("James is a fetus");
-writeLine("<img src=\"http://i.imgur.com/ydR8Dch.png\"/>");
+writeImgLine("http://i.imgur.com/ydR8Dch.png");
 writeLine("<b>Just kidding..</b>");
