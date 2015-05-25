@@ -3,8 +3,12 @@ function newLine()
 	document.write("<br/>");
 }
 
-document.writeln("James is a fetus");
-newLine();
-document.write("<img src=\"http://i.imgur.com/ydR8Dch.png\"/>");
-newLine();
-document.write("<b>Just kidding..</b>");
+function writeLine(text)
+{
+	document.write(text);
+	document.write("<br/>");
+}
+
+writeLine("James is a fetus");
+writeLine("<img src=\"http://i.imgur.com/ydR8Dch.png\"/>");
+writeLine("<b>Just kidding..</b>");
