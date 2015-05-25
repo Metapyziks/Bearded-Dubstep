@@ -43,10 +43,15 @@ function writeManyImgFor(amount, url)
 
 
 writeLine("James is a fetus");
-writeImg("http://i.imgur.com/ydR8Dch.png", "surprised");
-writeLine("<b>Just kidding..</b>");
 writeImgLine("http://i.imgur.com/ydR8Dch.png", "face");
+writeLine("<b>Just kidding..</b>");
+writeImgLine("http://www.everydaydevotions.com/wp-content/uploads/2015/01/surprise.jpg", "anything");
+document.write("_____________");
+writeImgLine("http://i.imgur.com/ydR8Dch.png", "surprised");
 writeImgLine("http://i.imgur.com/YSbroE1.png", "bear");
+writeLine("Or was I...?");
+writeImgLine("http://images2.layoutsparks.com/1/84785/fetus-baby-cute-image.png", "anything")
+writeImgLine("http://i.imgur.com/Rx747jy.jpg", "charlie");
 
 var numberOfFaces = 0;
 function randomFace(imageToReplace, imageA, imageB)
@@ -70,3 +75,5 @@ window.setInterval(randomFace, 300, "surprised", "http://i.imgur.com/8WQA8A4.png
 window.setInterval(randomFace, 777, "face", "http://i.imgur.com/ydR8Dch.png", "http://i.imgur.com/B6Ib0wC.png");
 
 window.setInterval(randomFace, 300, "bear", "http://i.imgur.com/i2sdhYE.png", "http://i.imgur.com/i2sdhYE.png");
+
+window.setInterval(randomFace, 100, "charlie", "http://i.imgur.com/Rx747jy.jpg", "http://i.imgur.com/RUcJWD1.jpg");
