@@ -44,9 +44,9 @@ function writeManyImgFor(amount, url)
 
 writeLine("James is a fetus");
 writeImg("http://i.imgur.com/ydR8Dch.png", "surprised");
-writeImgLine("http://i.imgur.com/4eoCFHS.png", "surprised");
 writeLine("<b>Just kidding..</b>");
-writeImg("http://i.imgur.com/ydR8Dch.png", "face");
+writeImgLine("http://i.imgur.com/ydR8Dch.png", "face");
+writeImgLine("http://i.imgur.com/YSbroE1.png", "bear");
 
 var numberOfFaces = 0;
 function randomFace(imageToReplace, imageA, imageB)
@@ -68,3 +68,5 @@ function randomFace(imageToReplace, imageA, imageB)
 window.setInterval(randomFace, 300, "surprised", "http://i.imgur.com/8WQA8A4.png", "http://i.imgur.com/RPzwsoE.png");
 
 window.setInterval(randomFace, 777, "face", "http://i.imgur.com/ydR8Dch.png", "http://i.imgur.com/B6Ib0wC.png");
+
+window.setInterval(randomFace, 300, "bear", "http://i.imgur.com/i2sdhYE.png", "http://i.imgur.com/i2sdhYE.png");
