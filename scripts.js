@@ -11,15 +11,15 @@ function writeLine(text)
 }
 
 
-function writeImg(url)
+function writeImg(url, name)
 {
-	document.write("<img src=\"" + url + "\"/>");
+	document.write("<img id=\"" + name + "\" src=\"" + url + "\"/>");
 }
 
 
-function writeImgLine(url)
+function writeImgLine(url, name)
 {
-	writeImg(url);
+	writeImg(url, name);
 	newLine();
 }
 
@@ -43,18 +43,25 @@ function writeManyImgFor(amount, url)
 
 
 writeLine("James is a fetus");
-writeImgLine("http://i.imgur.com/ydR8Dch.png");
+writeImgLine("http://i.imgur.com/ydR8Dch.png", "surprised");
 writeLine("<b>Just kidding..</b>");
-writeManyImgRec(1, "http://i.imgur.com/8WQA8A4.png");
-writeManyImgFor(1, "http://i.imgur.com/RPzwsoE.png");
-writeManyImgRec(1, "http://i.imgur.com/8WQA8A4.png");
-writeManyImgFor(1, "http://i.imgur.com/RPzwsoE.png");
-writeManyImgRec(1, "http://i.imgur.com/8WQA8A4.png");
-writeManyImgFor(1, "http://i.imgur.com/RPzwsoE.png");
+writeImg("http://i.imgur.com/ydR8Dch.png", "face");
 
+var numberOfFaces = 0;
 function randomFace()
 {
-	writeImg("http://i.imgur.com/8WQA8A4.png");
+	var image = document.getElementById("face");
+	
+	numberOfFaces = numberOfFaces + 1;
+	
+	if(numberOfFaces%2 == 0)
+	{
+		image.setAttribute("src", "http://i.imgur.com/8WQA8A4.png");
+	}
+	else
+	{
+		image.setAttribute("src", "http://i.imgur.com/RPzwsoE.png");
+	}
 }
 
 window.setInterval(randomFace, 16.66);
