@@ -1,79 +1,61 @@
-function newLine()
-{
-	document.write("<br/>");
-}
-
-
-function writeLine(text)
-{
-	document.write(text);
-	newLine();
-}
-
-
-function writeImg(url, name)
-{
-	document.write("<img id=\"" + name + "\" src=\"" + url + "\"/>");
-}
-
-
-function writeImgLine(url, name)
-{
-	writeImg(url, name);
-	newLine();
-}
-
-function writeManyImgRec(amount, url)
-{
-	if(amount>0)
-	{
-		writeImgLine(url);
-		writeManyImgRec(amount-1, url);
-	}
-}
-
-
-function writeManyImgFor(amount, url)
-{
-	for (var index = 0; index < amount; index = index + 1) 
-	{
-		writeImgLine(url);
-	}
-}
-
-
-writeLine("James is a fetus");
-writeImgLine("http://i.imgur.com/ydR8Dch.png", "face");
-writeLine("<b>Just kidding..</b>");
-writeImgLine("http://www.everydaydevotions.com/wp-content/uploads/2015/01/surprise.jpg", "anything");
-document.write("_____________");
-writeImgLine("http://i.imgur.com/ydR8Dch.png", "surprised");
-writeImgLine("http://i.imgur.com/YSbroE1.png", "bear");
-writeLine("Or was I...?");
-writeImgLine("http://images2.layoutsparks.com/1/84785/fetus-baby-cute-image.png", "anything")
-writeImgLine("http://i.imgur.com/Rx747jy.jpg", "charlie");
-
-var numberOfFaces = 0;
-function randomFace(imageToReplace, imageA, imageB)
-{
-	var image = document.getElementById(imageToReplace);
+var game = new Phaser.Game(512, 512, Phaser.AUTO, "bearded-dubstep", {
 	
-	numberOfFaces = numberOfFaces + 1;
+	preload:preload, create:create, update:update
+});
+
+var tyler;
+var tylerSpeed = 4;
+
+function preload()
+{
+	game.load.image("BG", "Images/Tyler.png");
+	game.load.image("Tyler", "Images/BG.png");
+}
+
+function create()
+{
+	tyler = game.add.sprite(0, 0, "Tyler");
+	game.add.sprite(240, 240, "BG");
+}
+
+function update()
+{
+	var moveAmount = {x:0, y:0};
 	
-	if(numberOfFaces%2 == 0)
+	if(game.input.keyboard.isDown(Phaser.Keyboard.A))
 	{
-		image.setAttribute("src", imageA);
+		moveAmount.x = moveAmount.x + 1;
 	}
-	else
+	
+	if(game.input.keyboard.isDown(Phaser.Keyboard.D))
 	{
-		image.setAttribute("src", imageB);
+		moveAmount.x = moveAmount.x - 1;
+	}
+	
+	if(game.input.keyboard.isDown(Phaser.Keyboard.W))
+	{
+		moveAmount.y = moveAmount.y + 1;
+	}
+	
+	if(game.input.keyboard.isDown(Phaser.Keyboard.S))
+	{
+		moveAmount.y = moveAmount.y - 1;
+	}
+	
+	var moveSpeed = Math.sqrt(moveAmount.x * moveAmount.x + moveAmount.y * moveAmount.y);
+	
+	if(moveSpeed != 0)
+	{
+		moveAmount.x = moveAmount.x / moveSpeed;
+		moveAmount.y = moveAmount.y / moveSpeed;
+	
+		tyler.x = tyler.x + moveAmount.x * tylerSpeed;
+		tyler.y = tyler.y + moveAmount.y * tylerSpeed;
+	}
+	
+	if (tyler.x > 512 - 32) 
+	{
+		tyler.x = 512 - 32;
 	}
 }
 
-window.setInterval(randomFace, 300, "surprised", "http://i.imgur.com/8WQA8A4.png", "http://i.imgur.com/RPzwsoE.png");
-
-window.setInterval(randomFace, 777, "face", "http://i.imgur.com/ydR8Dch.png", "http://i.imgur.com/B6Ib0wC.png");
-
-window.setInterval(randomFace, 300, "bear", "http://i.imgur.com/i2sdhYE.png", "http://i.imgur.com/i2sdhYE.png");
-
-window.setInterval(randomFace, 100, "charlie", "http://i.imgur.com/Rx747jy.jpg", "http://i.imgur.com/RUcJWD1.jpg");
