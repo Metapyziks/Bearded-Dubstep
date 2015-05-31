@@ -1,21 +1,31 @@
-var game = new Phaser.Game(512, 512, Phaser.AUTO, "bearded-dubstep", {
+var SCREEN_WIDTH = 1024;
+var SCREEN_HEIGHT = 768;
+
+var TYLER_WIDTH = 32;
+var TYLER_HEIGHT = 32;
+
+var BG_WIDTH = 512;
+var BG_HEIGHT = 512;
+
+var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
 	preload:preload, create:create, update:update
 });
 
+var bg;
 var tyler;
 var tylerSpeed = 4;
 
 function preload()
 {
-	game.load.image("BG", "Images/Tyler.png");
-	game.load.image("Tyler", "Images/BG.png");
+	game.load.image("Tyler", "Images/Tyler.png");
+	game.load.image("BG", "Images/BG.png");
 }
 
 function create()
 {
-	tyler = game.add.sprite(0, 0, "Tyler");
-	game.add.sprite(240, 240, "BG");
+	bg = game.add.sprite((SCREEN_WIDTH - BG_WIDTH) / 2, (SCREEN_HEIGHT - BG_HEIGHT) / 2, "BG");
+	tyler = game.add.sprite((SCREEN_WIDTH - TYLER_WIDTH) / 2, (SCREEN_HEIGHT - TYLER_HEIGHT) / 2, "Tyler");
 }
 
 function update()
@@ -49,13 +59,14 @@ function update()
 		moveAmount.x = moveAmount.x / moveSpeed;
 		moveAmount.y = moveAmount.y / moveSpeed;
 	
-		tyler.x = tyler.x + moveAmount.x * tylerSpeed;
-		tyler.y = tyler.y + moveAmount.y * tylerSpeed;
+		bg.x = bg.x + moveAmount.x * tylerSpeed;
+		bg.y = bg.y + moveAmount.y * tylerSpeed;
 	}
 	
-	if (tyler.x > 512 - 32) 
+// Collision
+	if (bg.x < tyler.x + TYLER_WIDTH - BG_WIDTH)
 	{
-		tyler.x = 512 - 32;
+		bg.x = tyler.x + TYLER_WIDTH - BG_WIDTH;
 	}
 }
 
