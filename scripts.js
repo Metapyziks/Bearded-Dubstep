@@ -4,8 +4,8 @@ var SCREEN_HEIGHT = 768;
 var TYLER_WIDTH = 32;
 var TYLER_HEIGHT = 32;
 
-var BG_WIDTH = 512;
-var BG_HEIGHT = 512;
+var BG_WIDTH = 6400;
+var BG_HEIGHT = 6400;
 
 var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
@@ -18,8 +18,8 @@ var tylerSpeed = 4;
 
 function preload()
 {
-	game.load.image("Tyler", "Images/Tyler.png");
-	game.load.image("BG", "Images/BG.png");
+	game.load.image("Tyler", "Images/Tyler2.png");
+	game.load.image("BG", "Images/BG2.png");
 }
 
 function create()
@@ -64,9 +64,25 @@ function update()
 	}
 	
 // Collision
+// Right
 	if (bg.x < tyler.x + TYLER_WIDTH - BG_WIDTH)
 	{
 		bg.x = tyler.x + TYLER_WIDTH - BG_WIDTH;
+	}
+// Left
+	if (bg.x > tyler.x)
+	{
+		bg.x = tyler.x;
+	}
+// Up
+	if (bg.y > tyler.y)
+	{
+		bg.y = tyler.y;
+	}
+// Down
+	if (bg.y < tyler.y + TYLER_HEIGHT - BG_HEIGHT)
+	{
+		bg.y = tyler.y + TYLER_HEIGHT - BG_HEIGHT;
 	}
 }
 
