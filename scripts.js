@@ -1,11 +1,15 @@
 var SCREEN_WIDTH = 1024;
 var SCREEN_HEIGHT = 768;
 
-var TYLER_WIDTH = 32;
-var TYLER_HEIGHT = 32;
+var SCALE = 2;
 
-var BG_WIDTH = 6400;
-var BG_HEIGHT = 6400;
+var TYLER_WIDTH = 14 * SCALE;
+var TYLER_HEIGHT = 6 * SCALE;
+var TYLER_CENTER_X = 0.5;
+var TYLER_CENTER_Y = 25/32;
+
+var BG_WIDTH = 6400 * SCALE;
+var BG_HEIGHT = 6400 * SCALE;
 
 var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
@@ -14,19 +18,34 @@ var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-du
 
 var bg;
 var tyler;
-var tylerSpeed = 4;
+var tylerSpeed = 20;
 
 function preload()
 {
-	game.load.image("Tyler", "Images/Tyler2.png");
+	game.load.image("Tyler", "Images/Tyler3.png");
 	game.load.image("BG", "Images/BG2.png");
 }
 
+
 function create()
 {
-	bg = game.add.sprite((SCREEN_WIDTH - BG_WIDTH) / 2, (SCREEN_HEIGHT - BG_HEIGHT) / 2, "BG");
-	tyler = game.add.sprite((SCREEN_WIDTH - TYLER_WIDTH) / 2, (SCREEN_HEIGHT - TYLER_HEIGHT) / 2, "Tyler");
+	bg = game.add.sprite(0, 0, "BG");
+	tyler = game.add.sprite(0, 0,
+		//BG_WIDTH / 2, BG_HEIGHT / 2, 
+		"Tyler");
+	tyler.anchor.set(TYLER_CENTER_X, TYLER_CENTER_Y);
+	scale(tyler);
+	scale(bg);
+	game.camera.follow(tyler);
 }
+
+function scale(sprite)
+{
+	sprite.scale.set(SCALE);
+	sprite.smoothed = false;
+}
+
+
 
 function update()
 {
@@ -63,26 +82,33 @@ function update()
 		bg.y = bg.y + moveAmount.y * tylerSpeed;
 	}
 	
-// Collision
-// Right
-	if (bg.x < tyler.x + TYLER_WIDTH - BG_WIDTH)
+	// Collision
+
+	// Right
+	if (bg.x < tyler.x + TYLER_WIDTH * 0.5 - BG_WIDTH)
 	{
-		bg.x = tyler.x + TYLER_WIDTH - BG_WIDTH;
+		bg.x = tyler.x + TYLER_WIDTH * 0.5 - BG_WIDTH;
 	}
-// Left
-	if (bg.x > tyler.x)
+	
+	// Left
+	if (bg.x > tyler.x - TYLER_WIDTH * 0.5)
 	{
-		bg.x = tyler.x;
+		bg.x = tyler.x - TYLER_WIDTH * 0.5;
 	}
-// Up
-	if (bg.y > tyler.y)
+	
+	// Up
+	if (bg.y > tyler.y - TYLER_HEIGHT * 0.5)
 	{
-		bg.y = tyler.y;
+		bg.y = tyler.y - TYLER_HEIGHT * 0.5;
 	}
-// Down
-	if (bg.y < tyler.y + TYLER_HEIGHT - BG_HEIGHT)
+	
+	// Down
+	if (bg.y < tyler.y + TYLER_HEIGHT * 0.5 - BG_HEIGHT)
 	{
-		bg.y = tyler.y + TYLER_HEIGHT - BG_HEIGHT;
+		bg.y = tyler.y + TYLER_HEIGHT * 0.5 - BG_HEIGHT;
 	}
+	
+	
+	
 }
 
