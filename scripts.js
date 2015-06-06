@@ -1,15 +1,13 @@
-var SCREEN_WIDTH = 1024;
-var SCREEN_HEIGHT = 768;
+var SCREEN_WIDTH = 512;
+var SCREEN_HEIGHT = 384;
 
-var SCALE = 2;
-
-var TYLER_WIDTH = 14 * SCALE;
-var TYLER_HEIGHT = 6 * SCALE;
+var TYLER_WIDTH = 14;
+var TYLER_HEIGHT = 6;
 var TYLER_CENTER_X = 0.5;
 var TYLER_CENTER_Y = 25/32;
 
-var BG_WIDTH = 6400 * SCALE;
-var BG_HEIGHT = 6400 * SCALE;
+var BG_WIDTH = 6400;
+var BG_HEIGHT = 6400;
 
 var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
@@ -18,7 +16,7 @@ var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-du
 
 var bg;
 var tyler;
-var tylerSpeed = 20;
+var tylerSpeed = 4;
 
 function preload()
 {
@@ -29,22 +27,12 @@ function preload()
 
 function create()
 {
+	game.world.setBounds(0, 0, BG_WIDTH, BG_HEIGHT);
 	bg = game.add.sprite(0, 0, "BG");
-	tyler = game.add.sprite(0, 0,
-		//BG_WIDTH / 2, BG_HEIGHT / 2, 
-		"Tyler");
+	tyler = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Tyler");
 	tyler.anchor.set(TYLER_CENTER_X, TYLER_CENTER_Y);
-	scale(tyler);
-	scale(bg);
 	game.camera.follow(tyler);
 }
-
-function scale(sprite)
-{
-	sprite.scale.set(SCALE);
-	sprite.smoothed = false;
-}
-
 
 
 function update()
@@ -78,12 +66,12 @@ function update()
 		moveAmount.x = moveAmount.x / moveSpeed;
 		moveAmount.y = moveAmount.y / moveSpeed;
 	
-		bg.x = bg.x + moveAmount.x * tylerSpeed;
-		bg.y = bg.y + moveAmount.y * tylerSpeed;
+		tyler.x = tyler.x + moveAmount.x * tylerSpeed;
+		tyler.y = tyler.y + moveAmount.y * tylerSpeed;
 	}
 	
 	// Collision
-
+/*
 	// Right
 	if (bg.x < tyler.x + TYLER_WIDTH * 0.5 - BG_WIDTH)
 	{
@@ -109,6 +97,6 @@ function update()
 	}
 	
 	
-	
+*/	
 }
 
