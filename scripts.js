@@ -6,55 +6,74 @@ var TYLER_HEIGHT = 6;
 var TYLER_CENTER_X = 0.5;
 var TYLER_CENTER_Y = 25/32;
 
-var BG_WIDTH = 6400;
-var BG_HEIGHT = 6400;
+var BG_WIDTH = 64;
+var BG_HEIGHT = 48;
 
 var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
 	preload:preload, create:create, update:update
 });
 
-var bg;
+var map;
+
 var tyler;
 var tylerSpeed = 4;
 
+
+function cameraFollowTyler()
+{
+	game.camera.x = Math.round(tyler.x - SCREEN_WIDTH * 0.5);
+	game.camera.y = Math.round(tyler.y - SCREEN_HEIGHT * 0.5);
+}
+
+
+
+
 function preload()
 {
+	game.load.tilemap("WorldBG", "Maps/World.json", null, Phaser.Tilemap.TILED_JSON);
 	game.load.image("Tyler", "Images/Tyler3.png");
-	game.load.image("BG", "Images/BG2.png");
+	game.load.image("Tiles", "Images/Tilemap.png");
 }
+
+
 
 
 function create()
 {
-	game.world.setBounds(0, 0, BG_WIDTH, BG_HEIGHT);
-	bg = game.add.sprite(0, 0, "BG");
+	map = game.add.tilemap("WorldBG", 16, 16);
+	map.addTilesetImage("Tiles");
+	map.createLayer(0).resizeWorld();
+	map.createLayer(1);
+	
 	tyler = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Tyler");
 	tyler.anchor.set(TYLER_CENTER_X, TYLER_CENTER_Y);
-	game.camera.follow(tyler);
+	cameraFollowTyler();
 }
+
+
 
 
 function update()
 {
 	var moveAmount = {x:0, y:0};
 	
-	if(game.input.keyboard.isDown(Phaser.Keyboard.A))
+	if(game.input.keyboard.isDown(Phaser.Keyboard.D))
 	{
 		moveAmount.x = moveAmount.x + 1;
 	}
 	
-	if(game.input.keyboard.isDown(Phaser.Keyboard.D))
+	if(game.input.keyboard.isDown(Phaser.Keyboard.A))
 	{
 		moveAmount.x = moveAmount.x - 1;
 	}
 	
-	if(game.input.keyboard.isDown(Phaser.Keyboard.W))
+	if(game.input.keyboard.isDown(Phaser.Keyboard.S))
 	{
 		moveAmount.y = moveAmount.y + 1;
 	}
 	
-	if(game.input.keyboard.isDown(Phaser.Keyboard.S))
+	if(game.input.keyboard.isDown(Phaser.Keyboard.W))
 	{
 		moveAmount.y = moveAmount.y - 1;
 	}
@@ -66,37 +85,9 @@ function update()
 		moveAmount.x = moveAmount.x / moveSpeed;
 		moveAmount.y = moveAmount.y / moveSpeed;
 	
-		tyler.x = tyler.x + moveAmount.x * tylerSpeed;
-		tyler.y = tyler.y + moveAmount.y * tylerSpeed;
+		tyler.x = Math.round(tyler.x + moveAmount.x * tylerSpeed);
+		tyler.y = Math.round(tyler.y + moveAmount.y * tylerSpeed);
+		
+		cameraFollowTyler();
 	}
-	
-	// Collision
-/*
-	// Right
-	if (bg.x < tyler.x + TYLER_WIDTH * 0.5 - BG_WIDTH)
-	{
-		bg.x = tyler.x + TYLER_WIDTH * 0.5 - BG_WIDTH;
-	}
-	
-	// Left
-	if (bg.x > tyler.x - TYLER_WIDTH * 0.5)
-	{
-		bg.x = tyler.x - TYLER_WIDTH * 0.5;
-	}
-	
-	// Up
-	if (bg.y > tyler.y - TYLER_HEIGHT * 0.5)
-	{
-		bg.y = tyler.y - TYLER_HEIGHT * 0.5;
-	}
-	
-	// Down
-	if (bg.y < tyler.y + TYLER_HEIGHT * 0.5 - BG_HEIGHT)
-	{
-		bg.y = tyler.y + TYLER_HEIGHT * 0.5 - BG_HEIGHT;
-	}
-	
-	
-*/	
 }
-
