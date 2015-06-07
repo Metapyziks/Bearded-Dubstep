@@ -32,7 +32,8 @@ function cameraFollowTyler()
 function preload()
 {
 	game.load.tilemap("WorldBG", "Maps/World.json", null, Phaser.Tilemap.TILED_JSON);
-	game.load.image("Tyler", "Images/Tyler3.png");
+	game.load.atlasJSONHash("Tyler", "Images/Tyler3.png", "Maps/mainchar_dwalk.json");
+	//game.load.image("Tyler", "Images/Tyler3.png");
 	game.load.image("Tiles", "Images/Tilemap.png");
 }
 
@@ -61,6 +62,8 @@ function update()
 	if(game.input.keyboard.isDown(Phaser.Keyboard.D))
 	{
 		moveAmount.x = moveAmount.x + 1;
+		tyler.animations.add("run");
+		tyler.animations.play("run", 8, true);
 	}
 	
 	if(game.input.keyboard.isDown(Phaser.Keyboard.A))
