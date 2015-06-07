@@ -6,8 +6,8 @@ var TYLER_HEIGHT = 6;
 var TYLER_CENTER_X = 0.5;
 var TYLER_CENTER_Y = 25/32;
 
-var BG_WIDTH = 64;
-var BG_HEIGHT = 48;
+var BG_WIDTH = 128 * 16;
+var BG_HEIGHT = 94 * 16;
 
 var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
