@@ -11,14 +11,50 @@ var BG_HEIGHT = 94 * 16;
 
 var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
-	preload:preload, create:create, update:update
+	preload:preload, create:create, update:update, render:render
 });
+
 
 var map;
 
+var objectsLayer;
 
+var tylerPhysics;
 var tyler;
-var tylerSpeed = 4;
+var tylerSpeed = 2;
+
+
+var debugOn = false;
+
+function toggleDebug(enableDebug)
+{
+	console.log("working " + enableDebug);
+	debugOn = enableDebug;
+	objectsLayer.debug = enableDebug;
+}
+
+
+var pressedKeys = {};
+
+function justPressed(keyCode)
+{
+	if(!game.input.keyboard.isDown(keyCode))
+	{
+		pressedKeys[keyCode] = false;
+		return false;
+	}
+	
+	if(pressedKeys[keyCode])
+	{
+		return false;
+	}
+	
+	
+	
+	pressedKeys[keyCode] = true;
+	return true;
+}
+
 
 
 function cameraFollowTyler()
@@ -32,8 +68,9 @@ function cameraFollowTyler()
 
 function preload()
 {
+	game.load.image("Empty", "Images/empty.png");
 	game.load.tilemap("WorldBG", "Maps/World.json", null, Phaser.Tilemap.TILED_JSON);
-	game.load.atlasJSONHash("Tyler", "Images/mainchar.png", "Animations/mainchar.json");
+	game.load.atlas("Tyler", "Images/mainchar.png", "Animations/mainchar.json");
 	game.load.image("Tiles", "Images/Tilemap.png");
 }
 
@@ -42,14 +79,35 @@ function preload()
 
 function create()
 {
+	game.canvas.oncontextmenu = function(e){e.preventDefault();};
+
+	game.physics.startSystem(Phaser.Physics.ARCADE);
+	
 	map = game.add.tilemap("WorldBG", 16, 16);
 	map.addTilesetImage("Tiles");
-	map.createLayer(0).resizeWorld();
-	map.createLayer(1);
+	
+	map.createLayer(0);
+	objectsLayer = map.createLayer(1);
+	
+	map.setCollisionBetween(5, 7, true, objectsLayer);
+	map.setCollisionBetween(14, 16, true, objectsLayer);
+	map.setCollisionBetween(19, 25, true, objectsLayer);
+	map.setCollisionBetween(28, 29, true, objectsLayer);
+	map.setCollisionBetween(32, 35, true, objectsLayer);
+	
+	objectsLayer.resizeWorld();
+	
+	
+	tylerPhysics = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Empty");
+	tylerPhysics.anchor.set(0.5, 0.5);
+	game.physics.enable(tylerPhysics);
+	tylerPhysics.body.setSize(16, 8, 0, 0);
+	tylerPhysics.body.collideWorldBounds = true;
 	
 	tyler = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Tyler");
 	tyler.anchor.set(TYLER_CENTER_X, TYLER_CENTER_Y);
-	tyler.animations.add("WalkD", Phaser.Animation.generateFrameNames("mainchar_dwalk", 0, 8, "", 2), 8, true);
+	tyler.animations.add("WalkD", Phaser.Animation.generateFrameNames("mainchar_dwalk", 0, 7, "", 2), 10, false);
+	
 	cameraFollowTyler();
 }
 
@@ -58,12 +116,26 @@ function create()
 
 function update()
 {
+	tyler.x = Math.round(tylerPhysics.x);
+	tyler.y = Math.round(tylerPhysics.y);
+	
+	cameraFollowTyler();
+	
+	game.physics.arcade.collide(tylerPhysics, objectsLayer);
 	var moveAmount = {x:0, y:0};
+	
+	
+	if(justPressed(Phaser.Keyboard.P))
+	{
+		toggleDebug(!debugOn);
+	}
+	
+	
+	
 	
 	if(game.input.keyboard.isDown(Phaser.Keyboard.D))
 	{
 		moveAmount.x = moveAmount.x + 1;
-		tyler.animations.play("WalkD", 8, true);
 	}
 	
 	if(game.input.keyboard.isDown(Phaser.Keyboard.A))
@@ -74,6 +146,7 @@ function update()
 	if(game.input.keyboard.isDown(Phaser.Keyboard.S))
 	{
 		moveAmount.y = moveAmount.y + 1;
+		tyler.animations.play("WalkD");
 	}
 	
 	if(game.input.keyboard.isDown(Phaser.Keyboard.W))
@@ -88,9 +161,27 @@ function update()
 		moveAmount.x = moveAmount.x / moveSpeed;
 		moveAmount.y = moveAmount.y / moveSpeed;
 	
-		tyler.x = Math.round(tyler.x + moveAmount.x * tylerSpeed);
-		tyler.y = Math.round(tyler.y + moveAmount.y * tylerSpeed);
+		tylerPhysics.body.velocity.x = moveAmount.x * tylerSpeed * 60;
+		tylerPhysics.body.velocity.y = moveAmount.y * tylerSpeed * 60;
 		
-		cameraFollowTyler();
+	}
+	else
+	{
+		tylerPhysics.body.velocity.x = 0;
+		tylerPhysics.body.velocity.y = 0;
+	}
+}
+
+
+function render()
+{
+	
+	if(debugOn)
+	{
+		game.debug.bodyInfo(tyler, 8,8);
+	}
+	else
+	{
+		game.debug.reset();
 	}
 }
