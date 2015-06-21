@@ -16,6 +16,7 @@ var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-du
 
 var map;
 
+
 var tyler;
 var tylerSpeed = 4;
 
@@ -32,8 +33,7 @@ function cameraFollowTyler()
 function preload()
 {
 	game.load.tilemap("WorldBG", "Maps/World.json", null, Phaser.Tilemap.TILED_JSON);
-	game.load.atlasJSONHash("Tyler", "Images/Tyler3.png", "Maps/mainchar_dwalk.json");
-	//game.load.image("Tyler", "Images/Tyler3.png");
+	game.load.atlasJSONHash("Tyler", "Images/mainchar.png", "Animations/mainchar.json");
 	game.load.image("Tiles", "Images/Tilemap.png");
 }
 
@@ -49,6 +49,7 @@ function create()
 	
 	tyler = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Tyler");
 	tyler.anchor.set(TYLER_CENTER_X, TYLER_CENTER_Y);
+	tyler.animations.add("WalkD", Phaser.Animation.generateFrameNames("mainchar_dwalk", 0, 8, "", 2), 8, true);
 	cameraFollowTyler();
 }
 
@@ -62,8 +63,7 @@ function update()
 	if(game.input.keyboard.isDown(Phaser.Keyboard.D))
 	{
 		moveAmount.x = moveAmount.x + 1;
-		tyler.animations.add("run");
-		tyler.animations.play("run", 8, true);
+		tyler.animations.play("WalkD", 8, true);
 	}
 	
 	if(game.input.keyboard.isDown(Phaser.Keyboard.A))
