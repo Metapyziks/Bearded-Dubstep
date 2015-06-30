@@ -12,7 +12,7 @@ var BG_HEIGHT = 94 * 16;
 var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
 	
 	preload:preload, create:create, update:update, render:render
-});
+}, false, false);
 
 
 var map;
@@ -80,6 +80,8 @@ function preload()
 function create()
 {
 	game.canvas.oncontextmenu = function(e){e.preventDefault();};
+
+    game.scale.setUserScale(2, 2, 0, 0);
 
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	
