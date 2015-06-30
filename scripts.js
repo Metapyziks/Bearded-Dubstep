@@ -1,6 +1,8 @@
 var SCREEN_WIDTH = 512;
 var SCREEN_HEIGHT = 384;
 
+var SCALE = 2;
+
 var TYLER_WIDTH = 14;
 var TYLER_HEIGHT = 6;
 var TYLER_CENTER_X = 0.5;
@@ -9,7 +11,7 @@ var TYLER_CENTER_Y = 25/32;
 var BG_WIDTH = 128 * 16;
 var BG_HEIGHT = 94 * 16;
 
-var game = new Phaser.Game(SCREEN_WIDTH, SCREEN_HEIGHT, Phaser.AUTO, "bearded-dubstep", {
+var game = new Phaser.Game(SCREEN_WIDTH * SCALE, SCREEN_HEIGHT * SCALE, Phaser.AUTO, "bearded-dubstep", {
 	
 	preload:preload, create:create, update:update, render:render
 }, false, false);
@@ -81,7 +83,7 @@ function create()
 {
 	game.canvas.oncontextmenu = function(e){e.preventDefault();};
 
-    game.camera.scale.set(2, 2);
+    game.camera.scale.set(SCALE);
 
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	
