@@ -81,7 +81,7 @@ function create()
 {
 	game.canvas.oncontextmenu = function(e){e.preventDefault();};
 
-    game.scale.setUserScale(2, 2, 0, 0);
+    game.camera.scale.set(2, 2);
 
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	
