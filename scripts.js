@@ -21,7 +21,6 @@ var map;
 
 var objectsLayer;
 
-var tylerPhysics;
 var tyler;
 var tylerSpeed = 2;
 
@@ -58,16 +57,6 @@ function justPressed(keyCode)
 }
 
 
-
-function cameraFollowTyler()
-{
-	game.camera.x = Math.round(tyler.x - SCREEN_WIDTH * 0.5) * SCALE;
-	game.camera.y = Math.round(tyler.y - SCREEN_HEIGHT * 0.5) * SCALE;
-}
-
-
-
-
 function preload()
 {
 	game.load.image("Empty", "Images/empty.png");
@@ -101,31 +90,22 @@ function create()
 	
 	objectsLayer.resizeWorld();
 	
-	
-	tylerPhysics = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Empty");
-	tylerPhysics.anchor.set(0.5, 0.5);
-	game.physics.enable(tylerPhysics);
-	tylerPhysics.body.setSize(16, 8, 0, 0);
-	tylerPhysics.body.collideWorldBounds = true;
-	
 	tyler = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Tyler");
 	tyler.anchor.set(TYLER_CENTER_X, TYLER_CENTER_Y);
 	tyler.animations.add("WalkD", Phaser.Animation.generateFrameNames("mainchar_dwalk", 0, 7, "", 2), 10, false);
+    game.physics.enable(tylerPhysics);
+    tyler.body.setSize(16, 8, 0, 0);
+    tyler.body.collideWorldBounds = true;
 	
-	cameraFollowTyler();
+    game.camera.follow(tyler, FOLLOW_TOPDOWN_TIGHT);
 }
 
 
 
 
 function update()
-{
-	tyler.x = Math.round(tylerPhysics.x);
-	tyler.y = Math.round(tylerPhysics.y);
-	
-	cameraFollowTyler();
-	
-	game.physics.arcade.collide(tylerPhysics, objectsLayer);
+{	
+	game.physics.arcade.collide(tyler, objectsLayer);
 	var moveAmount = {x:0, y:0};
 	
 	
@@ -165,14 +145,14 @@ function update()
 		moveAmount.x = moveAmount.x / moveSpeed;
 		moveAmount.y = moveAmount.y / moveSpeed;
 	
-		tylerPhysics.body.velocity.x = moveAmount.x * tylerSpeed * 60;
-		tylerPhysics.body.velocity.y = moveAmount.y * tylerSpeed * 60;
+		tyler.body.velocity.x = moveAmount.x * tylerSpeed * 60;
+		tyler.body.velocity.y = moveAmount.y * tylerSpeed * 60;
 		
 	}
 	else
 	{
-		tylerPhysics.body.velocity.x = 0;
-		tylerPhysics.body.velocity.y = 0;
+		tyler.body.velocity.x = 0;
+		tyler.body.velocity.y = 0;
 	}
 }
 
