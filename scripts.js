@@ -97,7 +97,7 @@ function create()
     tyler.body.setSize(16, 8, 0, 0);
     tyler.body.collideWorldBounds = true;
 	
-    game.camera.follow(tyler, FOLLOW_TOPDOWN_TIGHT);
+    game.camera.follow(tyler, Phaser.Camera.FOLLOW_TOPDOWN_TIGHT);
 }
 
 
