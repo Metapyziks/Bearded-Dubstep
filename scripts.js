@@ -93,7 +93,7 @@ function create()
 	tyler = game.add.sprite(BG_WIDTH / 2, BG_HEIGHT / 2, "Tyler");
 	tyler.anchor.set(TYLER_CENTER_X, TYLER_CENTER_Y);
 	tyler.animations.add("WalkD", Phaser.Animation.generateFrameNames("mainchar_dwalk", 0, 7, "", 2), 10, false);
-    game.physics.enable(tylerPhysics);
+    game.physics.enable(tyler);
     tyler.body.setSize(16, 8, 0, 0);
     tyler.body.collideWorldBounds = true;
 	
