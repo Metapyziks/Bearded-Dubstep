@@ -61,8 +61,8 @@ function justPressed(keyCode)
 
 function cameraFollowTyler()
 {
-	game.camera.x = Math.round(tyler.x - SCREEN_WIDTH * 0.5);
-	game.camera.y = Math.round(tyler.y - SCREEN_HEIGHT * 0.5);
+	game.camera.x = Math.round(tyler.x - SCREEN_WIDTH * 0.5) * SCALE;
+	game.camera.y = Math.round(tyler.y - SCREEN_HEIGHT * 0.5) * SCALE;
 }
 
 
