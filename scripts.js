@@ -1,7 +1,7 @@
 var SCREEN_WIDTH = 512;
 var SCREEN_HEIGHT = 384;
 
-var SCALE = 2;
+var SCALE = 1;
 
 var TYLER_WIDTH = 14;
 var TYLER_HEIGHT = 6;
@@ -105,7 +105,6 @@ function create()
 
 function update()
 {	
-	game.physics.arcade.collide(tyler, objectsLayer);
 	var moveAmount = {x:0, y:0};
 	
 	
@@ -154,6 +153,8 @@ function update()
 		tyler.body.velocity.x = 0;
 		tyler.body.velocity.y = 0;
 	}
+
+    game.physics.arcade.collide(tyler, objectsLayer);
 }
 
 
